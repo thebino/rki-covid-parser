@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+
+# intellij
+.idea/.gitignore
+.idea/vcs.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/rki_covid.iml
+
+.tox
+
+*.egg-info/
+
+.coverage
