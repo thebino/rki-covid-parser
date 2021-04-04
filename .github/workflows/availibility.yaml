@@ -1,6 +1,12 @@
 name: Check the ArcGis endpoint availibility
 
 on:
+  push:
+    branches:
+      - development
+  pull_request:
+    branches:
+      - development
   issue_comment:
     types: [created]
 
@@ -17,32 +23,6 @@ jobs:
       
       - name: Install dependencies
         run: pip install aiohttp
-
-      - name: isort
-        run: isort --line-width 88 --trailing-comma -m 3 --check-only .
       
-      - name: black
-        run: black --check .
-      
-      - name: flake8
-        run: flake8 --max-line-length 88 .
-      
-      - name: pydocstyle
-        run: pydocstyle .
-      
-      - name: mypy
-        run: mypy --ignore-missing-imports --follow-imports=silent custom_components/rki_covid
-  bandit:
-    runs-on: "ubuntu-latest"
-    steps:
-      - uses: "actions/checkout@v2"
-      - name: Bandit Check (Python security linter)
-        uses: jpetrucciani/bandit-check@master
-  validate:
-    runs-on: "ubuntu-latest"
-    steps:
-      - uses: "actions/checkout@v2"
-      - name: HACS validation
-        uses: "hacs/action@main"
-        with:
-          category: "integration"
+      - name: tox
+        run: tox
