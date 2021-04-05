@@ -19,22 +19,22 @@ finished loading data, the parser contains a sictionary of districts, each with 
 
 |Property    |Type|Description|
 |:-----------|:---|:------------|
-|`id`| number | . |
-|`name`| number | . |
-|`county`| number | . |
-|`state`| number | . |
-|`population`| number | . |
-|`cases`| number | . |
-|`deaths`| number | . |
-|`casesPerWeek`| number | . |
-|`deathsPerWeek`| number | . |
-|`recovered`| number | . |
-|`weekIncidence`| number | . |
-|`casesPer100k`| number | . |
-|`newCases`| number | . |
-|`newDeaths`| number | . |
-|`newRecovered`| number | . |
-|`last_update`| number | . |
+|`id`| string | Unique district identifier |
+|`name`| string | Name of the  district |
+|`county`| string | County of the district |
+|`state`| string | State of the district |
+|`population`| integer | Population |
+|`cases`| integer | Active cases |
+|`deaths`| integer | Currently tracked deaths |
+|`casesPerWeek`| integer | Cases per week |
+|`deathsPerWeek`| integer | Deaths per week |
+|`recovered`| integer | Recovered cases |
+|`weekIncidence`| integer | Week incedence |
+|`casesPer100k`| float | Cases per 100k population |
+|`newCases`| integer | New cases since last day |
+|`newDeaths`| integer | New deaths since last day |
+|`newRecovered`| integer | New recovered since last day |
+|`last_update`| string | Timestamp of the last update |
 
 
 ## Contribution
