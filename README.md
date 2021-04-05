@@ -1,12 +1,12 @@
 # Robert-Koch Institut COVID numbers parser
 
+[![License](https://img.shields.io/github/license/thebino/rki-covid-parser)](./LICENSE.md)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/thebino/rki-covid-parser/Check%20the%20ArcGis%20endpoint%20availibility)
+
+Python parser for the latest covid numbers from German RKI (Robert-Koch Institut).
+
 ## Installation
 ```pip install rki-covid-parser```
-
-
-## Introduction
-Parse latest covid numbers from German RKI (Robert-Koch Institut).
-
 
 ## Usage
 Initialize the parser with an `aiohttp.session` and load the latest data.
