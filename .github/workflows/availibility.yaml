@@ -22,7 +22,7 @@ jobs:
           python-version: 3.8
       
       - name: Install dependencies
-        run: pip install aiohttp
+        run: pip install aiohttp tox
       
       - name: tox
         run: tox
