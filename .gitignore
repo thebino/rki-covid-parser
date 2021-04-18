@@ -1,5 +1,20 @@
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+
 
 # intellij
 .idea/.gitignore
@@ -9,7 +24,4 @@ __pycache__/
 .idea/rki_covid.iml
 
 .tox
-
-*.egg-info/
-
 .coverage

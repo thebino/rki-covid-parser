@@ -25,4 +25,3 @@ To pass the official guidelines, all unit tests have to pass.
 ```shell
 tox
 ```
-
