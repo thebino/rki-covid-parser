@@ -122,7 +122,7 @@ class RkiCovidParser:
         for d in self.districts:
             district = self.districts[d]
             if district.state not in self.states:
-                self.states[district.state] = State()
+                self.states[district.state] = State(district.state)
 
             self.states[district.state].population += district.population
             self.states[district.state].cases += district.cases

@@ -54,6 +54,7 @@ def validate_latest_district_numbers(districts: Dict[int, District]):
 
 def validate_latest_state_numbers(state: Dict[int, State]) -> None:
     """Validate latest numbers against RKI dashboard."""
+    assert state['Bayern'].name == 'Bayern'
     assert state['Bayern'].population == 13124737
     assert state['Bayern'].cases == 553999
     assert state['Bayern'].deaths == 13725
@@ -69,6 +70,7 @@ def validate_latest_state_numbers(state: Dict[int, State]) -> None:
 
 def validate_latest_country_numbers(country: Country) -> None:
     """Validate latest numbers against RKI dashboard."""
+    assert country.name == "Deutschland"
     assert country.population == 83166711
     assert country.cases == 3142262
     assert country.deaths == 79914
