@@ -13,9 +13,18 @@ Initialize the parser with an `aiohttp.session` and load the latest data.
 ```
 parser = RkiCovidParser(session)        
 await parser.load_data()
+
+
 for district in parser.districts:
-    # work with the district properties
+    # work with districts
     pass
+
+for state in parser.states:
+    # work with states
+    pass
+
+# work with the country
+parser.country.cases
 ```
 
 finished loading data, the parser contains a dictionary of districts, each with these properties:
@@ -41,4 +50,4 @@ finished loading data, the parser contains a dictionary of districts, each with 
 
 
 ## Contribution
-See [Contribution](CONTRIBUTING.md) for details.
+See [Contribution](https://github.com/thebino/rki-covid-parser/blob/development/CONTRIBUTING.md) for details.
