@@ -32,7 +32,7 @@ class District:
         assert "cases" in data
         assert "deaths" in data
         assert "county" in data
-        assert "lastUpdate" in data
+        assert "last_update" in data
         assert "cases7_lk" in data
         assert "death7_lk" in data
         assert "BL" in data
@@ -53,7 +53,7 @@ class District:
         # self.newCases
         # self.newDeaths
         # self.newRecovered
-        self.lastUpdate: str = data["lastUpdate"]  # "01.01.2020, 00:00 Uhr"
+        self.lastUpdate: str = data["last_update"]  # "01.01.2020, 00:00 Uhr"
 
     def add_properties(self, data: dict):
         pass

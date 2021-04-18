@@ -50,7 +50,7 @@ def validate_latest_district_numbers(districts: Dict[int, District]):
     assert districts['09162'].newCases == 250            #
     assert districts['09162'].newDeaths == 1             #
     assert districts['09162'].newRecovered == 158
-    assert districts['09162'].last_update == '18.04.2021, 00:00 Uhr'
+    assert districts['09162'].lastUpdate == '18.04.2021, 00:00 Uhr'
 
 def validate_latest_state_numbers(state: Dict[int, State]) -> None:
     """Validate latest numbers against RKI dashboard."""
@@ -65,7 +65,7 @@ def validate_latest_state_numbers(state: Dict[int, State]) -> None:
     assert state['Bayern'].newCases == 3367
     assert state['Bayern'].newDeaths == 10
     assert state['Bayern'].newRecovered == 1915
-    assert state['Bayern'].last_update == '18.04.2021, 00:00 Uhr'
+    assert state['Bayern'].lastUpdate == '18.04.2021, 00:00 Uhr'
 
 def validate_latest_country_numbers(country: Country) -> None:
     """Validate latest numbers against RKI dashboard."""
@@ -80,7 +80,7 @@ def validate_latest_country_numbers(country: Country) -> None:
     assert country.newCases == 19185
     assert country.newDeaths == 67
     assert country.newRecovered == 10158
-    assert country.last_update == '18.04.2021, 00:00 Uhr'
+    assert country.lastUpdate == '18.04.2021, 00:00 Uhr'
 
 def validate_district(district: District):
     """Validate all properties are filled."""
@@ -99,7 +99,7 @@ def validate_district(district: District):
     assert district.newCases is not None
     assert district.newDeaths is not None
     assert district.newRecovered is not None
-    assert district.last_update is not None
+    assert district.lastUpdate is not None
 
 def validate_state(state: State):
     """Validate all properties are filled."""
