@@ -133,7 +133,7 @@ class RkiCovidParser:
             self.states[district.state].newCases += district.newCases
             self.states[district.state].newDeaths += district.newDeaths
             self.states[district.state].newRecovered += district.newRecovered
-            self.states[district.state].last_update = district.last_update
+            self.states[district.state].lastUpdate = district.lastUpdate
 
         for state in self.states:
             self.states[state].weekIncidence = round(self.states[state].casesPerWeek / self.states[state].population * 100000, 2)
@@ -156,7 +156,7 @@ class RkiCovidParser:
             self.country.newCases += district.newCases
             self.country.newDeaths += district.newDeaths
             self.country.newRecovered += district.newRecovered
-            self.country.last_update = district.last_update
+            self.country.lastUpdate = district.lastUpdate
 
         self.country.weekIncidence = round(self.country.casesPerWeek / self.country.population * 100000, 2)
         self.country.casesPer100k = round(self.country.cases / self.country.population * 100000, 2)

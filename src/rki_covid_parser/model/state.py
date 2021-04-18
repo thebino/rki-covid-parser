@@ -19,7 +19,7 @@ class State:
     newCases: int = 0
     newDeaths: int = 0
     newRecovered: int = 0
-    last_update: str = None
+    lastUpdate: str = None
 
     def validate(self, data: dict):
         assert "RS" in data
@@ -28,7 +28,7 @@ class State:
         assert "cases" in data
         assert "deaths" in data
         assert "county" in data
-        assert "last_update" in data
+        assert "lastUpdate" in data
         assert "cases7_lk" in data
         assert "death7_lk" in data
         assert "BL" in data
@@ -43,7 +43,7 @@ class State:
         self.deaths: int = data["deaths"]
         self.casesPerWeek: int = data["cases7_lk"]
         self.deathsPerWeek: int = data["death7_lk"]
-        self.last_update: str = data["last_update"]  # "01.01.2020, 00:00 Uhr"
+        self.lastUpdate: str = data["lastUpdate"]  # "01.01.2020, 00:00 Uhr"
 
     def __repr__(self):
         return (
