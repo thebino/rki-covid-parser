@@ -17,6 +17,9 @@ class State:
     newCases: int = 0
     newDeaths: int = 0
     newRecovered: int = 0
+    vaccinationTotal = None
+    vaccinationFirst = None
+    vaccinationFull = None
     lastUpdate: str = None
 
     def __init__(self, name: str):

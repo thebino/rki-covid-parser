@@ -1,14 +1,35 @@
 """Parse district responses from RKI Covid numbers."""
 import json
 
+import csv
+import io
+
 import aiohttp
 
-from rki_covid_parser.const import DISTRICTS_URL, DISTRICTS_URL_RECOVERED, DISTRICTS_URL_NEW_CASES, DISTRICTS_URL_NEW_RECOVERED, DISTRICTS_URL_NEW_DEATHS
+from rki_covid_parser.const import DISTRICTS_URL, DISTRICTS_URL_RECOVERED, DISTRICTS_URL_NEW_CASES, DISTRICTS_URL_NEW_RECOVERED, DISTRICTS_URL_NEW_DEATHS, VACCINATIONS_URL
 from rki_covid_parser.model.district import District
 from rki_covid_parser.model.state import State
 from rki_covid_parser.model.country import Country
 
 
+VaccinationCode2StateMap = {
+    "DE-SH": "Schleswig-Holstein",
+    "DE-HH": "Hamburg",
+    "DE-NI": "Niedersachsen",
+    "DE-HB": "Bremen",
+    "DE-NW": "Nordrhein-Westfalen",
+    "DE-HE": "Hessen",
+    "DE-RP": "Rheinland-Pfalz",
+    "DE-BW": "Baden-Württemberg",
+    "DE-BY": "Bayern",
+    "DE-SL": "Saarland",
+    "DE-BE": "Berlin",
+    "DE-BB": "Brandenburg",
+    "DE-MV": "Mecklenburg-Vorpommern",
+    "DE-SN": "Sachsen",
+    "DE-ST": "Sachsen-Anhalt",
+    "DE-TH": "Thüringen",
+}
 class RkiCovidParser:
     def __init__(self, session: aiohttp.ClientSession):
         self.session = session
@@ -25,6 +46,8 @@ class RkiCovidParser:
         await self._load_districts_new_recovered()
         await self._merge_states()
         await self._merge_country()
+
+        await self._load_vaccinations()
 
     async def _load_districts(self) -> None:
         """load and parse districts."""
@@ -50,6 +73,11 @@ class RkiCovidParser:
         """load new recovered for districts."""
         data = await self._load_from_argcis(DISTRICTS_URL_NEW_RECOVERED)
         await self._extract_districts_new_recovered(data)
+
+    async def _load_vaccinations(self) -> None:
+        """load vaccinations for districts."""
+        data = await self._load_from_tsv(VACCINATIONS_URL)
+        await self._extract_vaccinations(data)
 
     async def _extract_districts(self, data: dict) -> None:
         """iterate through 'features' and 'attributes' to extract districts."""
@@ -111,11 +139,32 @@ class RkiCovidParser:
             newDeaths = feature["attributes"]["newDeaths"]
             self.districts[id].newDeaths = newDeaths
 
+    async def _extract_vaccinations(self, data: csv.DictReader) -> None:
+        """iterate through rows to extract vaccinations."""
+        assert type(data) == csv.DictReader
+
+        for row in data:
+            assert "code" in row
+            assert "vaccinationsTotal" in row
+            assert "peopleFirstTotal" in row
+            assert "peopleFullTotal" in row
+            assert(row["code"] in VaccinationCode2StateMap)
+            state = VaccinationCode2StateMap[row["code"]]
+            #assert state in self.states
+            self.states[state].vaccinationTotal = int(row["vaccinationsTotal"])
+            self.states[state].vaccinationFirst = int(row["peopleFirstTotal"])
+            self.states[state].vaccinationFull = int(row["peopleFullTotal"])
+
     async def _load_from_argcis(self, url: str) -> str:
         response = await self.session.get(url)
         # parse data manually, due to missing content-type 'application/json'
         body = await response.text()
         return json.loads(body)
+
+    async def _load_from_tsv(self, url: str) -> str:
+        response = await self.session.get(url)
+        body = await response.text()
+        return csv.DictReader(io.StringIO(body), dialect=csv.excel_tab)
 
     async def _merge_states(self) -> None:
         """merge all districts grouped by state."""
