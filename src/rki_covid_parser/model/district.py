@@ -13,8 +13,8 @@ class District:
     deaths: int = None
     casesPerWeek: int = None
     deathsPerWeek: int = None
-    recovered = None
-    weekIncidence = None
+    recovered: int = None
+    weekIncidence: float = None
     casesPer100k: float = None
     newCases: int = 0
     newDeaths: int = 0

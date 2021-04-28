@@ -11,8 +11,8 @@ class Country:
     deaths: int = 0
     casesPerWeek: int = 0
     deathsPerWeek: int = 0
-    recovered = 0
-    weekIncidence = 0
+    recovered: int = 0
+    weekIncidence: float = 0.0
     casesPer100k: float = 0.0
     newCases: int = 0
     newDeaths: int = 0
