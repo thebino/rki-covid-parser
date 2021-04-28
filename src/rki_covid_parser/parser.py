@@ -30,6 +30,20 @@ VaccinationCode2StateMap = {
     "DE-ST": "Sachsen-Anhalt",
     "DE-TH": "Thüringen",
 }
+
+
+def generator_attributes_from_features(data):
+    assert type(data) == dict
+    _features = "features"
+    _attributes = "attributes"
+    assert _features in data
+    assert len(data[_features]) > 0
+
+    for feature in data[_features]:
+        assert _attributes in feature
+        yield feature[_attributes]
+
+
 class RkiCovidParser:
     def __init__(self, session: aiohttp.ClientSession):
         self.session = session
@@ -80,63 +94,37 @@ class RkiCovidParser:
         await self._extract_vaccinations(data)
 
     async def _extract_districts(self, data: dict) -> None:
-        """iterate through 'features' and 'attributes' to extract districts."""
-        assert type(data) == dict
-        assert "features" in data
-        assert len(data["features"]) > 0
-
-        for feature in data["features"]:
-            assert "attributes" in feature
-
-            id = feature["attributes"]["RS"]
-            self.districts[id] = District(feature["attributes"])
+        """iterate through 'attributes' to extract districts."""
+        for attributes in generator_attributes_from_features(data):
+            id = attributes["RS"]
+            self.districts[id] = District(attributes)
 
     async def _extract_districts_recovered(self, data: dict) -> None:
-        """iterate through 'features' and 'attributes' to extract recovered for districts."""
-        assert type(data) == dict
-        assert "features" in data
-        assert len(data["features"]) > 0
-
-        for feature in data["features"]:
-            assert "attributes" in feature
-            id = feature["attributes"]["IdLandkreis"]
-            recovered = feature["attributes"]["recovered"]
+        """iterate through 'attributes' to extract recovered for districts."""
+        for attributes in generator_attributes_from_features(data):
+            id = attributes["IdLandkreis"]
+            recovered = attributes["recovered"]
             self.districts[id].recovered = recovered
 
     async def _extract_districts_new_cases(self, data: dict) -> None:
-        """iterate through 'features' and 'attributes' to extract new cases for districts."""
-        assert type(data) == dict
-        assert "features" in data
-        assert len(data["features"]) > 0
-
-        for feature in data["features"]:
-            assert "attributes" in feature
-            id = feature["attributes"]["IdLandkreis"]
-            newCases = feature["attributes"]["newCases"]
+        """iterate through 'attributes' to extract new cases for districts."""
+        for attributes in generator_attributes_from_features(data):
+            id = attributes["IdLandkreis"]
+            newCases = attributes["newCases"]
             self.districts[id].newCases = newCases
 
     async def _extract_districts_new_recovered(self, data: dict) -> None:
-        """iterate through 'features' and 'attributes' to extract new cases for districts."""
-        assert type(data) == dict
-        assert "features" in data
-        assert len(data["features"]) > 0
-
-        for feature in data["features"]:
-            assert "attributes" in feature
-            id = feature["attributes"]["IdLandkreis"]
-            newRecovered = feature["attributes"]["recovered"]
+        """iterate through 'attributes' to extract new cases for districts."""
+        for attributes in generator_attributes_from_features(data):
+            id = attributes["IdLandkreis"]
+            newRecovered = attributes["recovered"]
             self.districts[id].newRecovered = newRecovered
 
     async def _extract_districts_new_deaths(self, data: dict) -> None:
-        """iterate through 'features' and 'attributes' to extract new deaths for districts."""
-        assert type(data) == dict
-        assert "features" in data
-        assert len(data["features"]) > 0
-
-        for feature in data["features"]:
-            assert "attributes" in feature
-            id = feature["attributes"]["IdLandkreis"]
-            newDeaths = feature["attributes"]["newDeaths"]
+        """iterate through 'attributes' to extract new deaths for districts."""
+        for attributes in generator_attributes_from_features(data):
+            id = attributes["IdLandkreis"]
+            newDeaths = attributes["newDeaths"]
             self.districts[id].newDeaths = newDeaths
 
     async def _extract_vaccinations(self, data: csv.DictReader) -> None:
