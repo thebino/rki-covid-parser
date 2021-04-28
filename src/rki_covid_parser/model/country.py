@@ -1,22 +1,12 @@
 """Country representation with all properties."""
 from dataclasses import dataclass
+from .area import Area
 
 
 @dataclass
-class Country:
+class Country(Area):
     id: str = None
     name: str = "Deutschland"
-    population: int = 0
-    cases: int = 0
-    deaths: int = 0
-    casesPerWeek: int = 0
-    deathsPerWeek: int = 0
-    recovered: int = 0
-    weekIncidence: float = 0.0
-    casesPer100k: float = 0.0
-    newCases: int = 0
-    newDeaths: int = 0
-    newRecovered: int = 0
     lastUpdate: str = None
 
     def __repr__(self):

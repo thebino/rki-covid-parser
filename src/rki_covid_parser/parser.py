@@ -173,11 +173,6 @@ class RkiCovidParser:
             state.newDeaths += district.newDeaths
             state.newRecovered += district.newRecovered
             state.lastUpdate = district.lastUpdate
-
-        for state in self.states.values():
-            state.weekIncidence = round(state.casesPerWeek / state.population * 100000, 2)
-            state.casesPer100k = round(state.cases / state.population * 100000, 2)
-
             
     async def _merge_country(self) -> None:
         """merge all districts to country."""
@@ -194,6 +189,3 @@ class RkiCovidParser:
             self.country.newDeaths += district.newDeaths
             self.country.newRecovered += district.newRecovered
             self.country.lastUpdate = district.lastUpdate
-
-        self.country.weekIncidence = round(self.country.casesPerWeek / self.country.population * 100000, 2)
-        self.country.casesPer100k = round(self.country.cases / self.country.population * 100000, 2)
