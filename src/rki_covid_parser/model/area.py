@@ -16,7 +16,7 @@ class Area:
 
     @property
     def weekIncidence(self) -> float:
-        return round(self.casesPerWeek / self.population * 100000, 2)
+        return round(self.casesPerWeek / self.population * 100000, 1)
 
     @property
     def casesPer100k(self) -> float:
