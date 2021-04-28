@@ -142,18 +142,22 @@ class RkiCovidParser:
     async def _extract_vaccinations(self, data: csv.DictReader) -> None:
         """iterate through rows to extract vaccinations."""
         assert type(data) == csv.DictReader
+        _code = "code"
+        _vaccinations_total = "vaccinationsTotal"
+        _people_first_total = "peopleFirstTotal"
+        _people_full_total = "peopleFullTotal"
 
         for row in data:
-            assert "code" in row
-            assert "vaccinationsTotal" in row
-            assert "peopleFirstTotal" in row
-            assert "peopleFullTotal" in row
-            assert(row["code"] in VaccinationCode2StateMap)
-            state = VaccinationCode2StateMap[row["code"]]
+            assert _code in row
+            assert _vaccinations_total in row
+            assert _people_first_total in row
+            assert _people_full_total in row
+            assert(row[_code] in VaccinationCode2StateMap)
+            state = VaccinationCode2StateMap[row[_code]]
             #assert state in self.states
-            self.states[state].vaccinationTotal = int(row["vaccinationsTotal"])
-            self.states[state].vaccinationFirst = int(row["peopleFirstTotal"])
-            self.states[state].vaccinationFull = int(row["peopleFullTotal"])
+            self.states[state].vaccinationTotal = int(row[_vaccinations_total])
+            self.states[state].vaccinationFirst = int(row[_people_first_total])
+            self.states[state].vaccinationFull = int(row[_people_full_total])
 
     async def _load_from_argcis(self, url: str) -> str:
         response = await self.session.get(url)
