@@ -28,3 +28,17 @@ class Area:
             f"{self.__class__.__name__}"
             f"(cases={self.cases!r}, deaths={self.deaths!r}, recovered={self.recovered!r}, newCases={self.newCases!r}\n)"
         )
+
+
+    def accumulate(self, other):
+        assert isinstance(other, Area)
+
+        self.population += other.population
+        self.cases += other.cases
+        self.deaths += other.deaths
+        self.casesPerWeek += other.casesPerWeek
+        self.deathsPerWeek += other.deathsPerWeek
+        self.recovered += other.recovered
+        self.newCases += other.newCases
+        self.newDeaths += other.newDeaths
+        self.newRecovered += other.newRecovered
