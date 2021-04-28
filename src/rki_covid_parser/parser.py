@@ -173,19 +173,18 @@ class RkiCovidParser:
     async def _merge_states(self) -> None:
         """merge all districts grouped by state."""
         for district in self.districts.values():
-            if district.state not in self.states:
-                self.states[district.state] = State(district.state)
+            state = self.states.setdefault(district.state, State(district.state))
 
-            self.states[district.state].population += district.population
-            self.states[district.state].cases += district.cases
-            self.states[district.state].deaths += district.deaths
-            self.states[district.state].casesPerWeek += district.casesPerWeek
-            self.states[district.state].deathsPerWeek += district.deathsPerWeek
-            self.states[district.state].recovered += district.recovered
-            self.states[district.state].newCases += district.newCases
-            self.states[district.state].newDeaths += district.newDeaths
-            self.states[district.state].newRecovered += district.newRecovered
-            self.states[district.state].lastUpdate = district.lastUpdate
+            state.population += district.population
+            state.cases += district.cases
+            state.deaths += district.deaths
+            state.casesPerWeek += district.casesPerWeek
+            state.deathsPerWeek += district.deathsPerWeek
+            state.recovered += district.recovered
+            state.newCases += district.newCases
+            state.newDeaths += district.newDeaths
+            state.newRecovered += district.newRecovered
+            state.lastUpdate = district.lastUpdate
 
         for state in self.states.values():
             state.weekIncidence = round(state.casesPerWeek / state.population * 100000, 2)
