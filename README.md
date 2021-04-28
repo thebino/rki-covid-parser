@@ -41,7 +41,7 @@ finished loading data, the parser contains a dictionary of districts, each with 
 |`casesPerWeek`| integer | Cases per week |
 |`deathsPerWeek`| integer | Deaths per week |
 |`recovered`| integer | Recovered cases |
-|`weekIncidence`| integer | Week incedence |
+|`weekIncidence`| float | Week incidence |
 |`casesPer100k`| float | Cases per 100k population |
 |`newCases`| integer | New cases since last day |
 |`newDeaths`| integer | New deaths since last day |

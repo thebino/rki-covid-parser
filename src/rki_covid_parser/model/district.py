@@ -1,24 +1,14 @@
 """District representation with all properties."""
 from dataclasses import dataclass
+from .area import Area
 
 
 @dataclass
-class District:
+class District(Area):
     id: str = None
     name: str = None
     county: str = None
     state: str = None
-    population: int = None
-    cases: int = None
-    deaths: int = None
-    casesPerWeek: int = None
-    deathsPerWeek: int = None
-    recovered = None
-    weekIncidence = None
-    casesPer100k: float = None
-    newCases: int = 0
-    newDeaths: int = 0
-    newRecovered: int = 0
     lastUpdate: str = ""
 
     def __init__(self, data: dict):
@@ -48,8 +38,6 @@ class District:
         self.casesPerWeek: int = data["cases7_lk"]
         self.deathsPerWeek: int = data["death7_lk"]
         # self.recovered
-        self.weekIncidence: int = round(data["cases7_lk"] / data["EWZ"] * 100000, 2)
-        self.casesPer100k: int = round(data["cases"] / data["EWZ"] * 100000, 2)
         # self.newCases
         # self.newDeaths
         # self.newRecovered
