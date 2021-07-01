@@ -160,6 +160,16 @@ class RkiCovidParser:
 
     async def _merge_states(self) -> None:
         """merge all districts grouped by state."""
+        self.population = 0
+        self.cases = 0
+        self.deaths = 0
+        self.casesPerWeek = 0
+        self.deathsPerWeek = 0
+        self.recovered = 0
+        self.newCases = 0
+        self.newDeaths = 0
+        self.newRecovered = 0
+        
         for district in self.districts.values():
             state = self.states.setdefault(district.state, State(district.state))
 
