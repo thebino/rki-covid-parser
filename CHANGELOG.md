@@ -1,3 +1,7 @@
+## [1.2.1] - 2021-07-01
+### Fixed
+- Reset state values before merging
+
 ## [1.2.0] - 2021-04-28
 ### Changed
 - Simplified state parsing
