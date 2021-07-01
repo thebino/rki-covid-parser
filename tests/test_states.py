@@ -14,6 +14,15 @@ async def test_states_response():
         parser = RkiCovidParser(session)
         await parser.load_data()
 
+        assert len(parser.states) == 16
+        for state in parser.states:
+            validate_state(parser.states[state])
+
+async def test_multiple_load_data_calls():
+    """Test the service response for content."""
+    async with aiohttp.ClientSession() as session:
+        parser = RkiCovidParser(session)
+        await parser.load_data()
         await parser.load_data()
 
         assert len(parser.states) == 16
@@ -26,3 +35,4 @@ def validate_state(state: State):
     if state.name == 'Niedersachsen':
         assert state.cases == 261055
     pass
+

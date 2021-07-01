@@ -53,6 +53,7 @@ class RkiCovidParser:
 
     async def load_data(self) -> None:
         """load all data and merge results."""
+        await self._reset_states()
         await self._load_districts()
         await self._load_districts_recovered()
         await self._load_districts_new_cases()
@@ -62,6 +63,10 @@ class RkiCovidParser:
         await self._merge_country()
 
         await self._load_vaccinations()
+
+    async def _reset_states(self) -> None:
+        """reset previous loaded values."""
+        self.states = {}
 
     async def _load_districts(self) -> None:
         """load and parse districts."""
@@ -159,17 +164,8 @@ class RkiCovidParser:
         return csv.DictReader(io.StringIO(body), dialect=csv.excel_tab)
 
     async def _merge_states(self) -> None:
-        """merge all districts grouped by state."""
-        self.population = 0
-        self.cases = 0
-        self.deaths = 0
-        self.casesPerWeek = 0
-        self.deathsPerWeek = 0
-        self.recovered = 0
-        self.newCases = 0
-        self.newDeaths = 0
-        self.newRecovered = 0
-        
+        """merge all districts grouped by state."""       
+
         for district in self.districts.values():
             state = self.states.setdefault(district.state, State(district.state))
 
