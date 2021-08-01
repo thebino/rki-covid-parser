@@ -1,9 +1,11 @@
+# Byte-compiled
 __pycache__/
 *.py[cod]
 *$py.class
 
 # Distribution / packaging
 .Python
+.venv/
 build/
 develop-eggs/
 dist/

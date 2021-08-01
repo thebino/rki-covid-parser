@@ -30,9 +30,15 @@ async def test_multiple_load_data_calls():
             validate_state(parser.states[state])
 
 def validate_state(state: State):
+    # validate numbers against RKI Dashboard (https://experience.arcgis.com/experience/478220a4c454480e823b17327b2bf1d4/)
+    if state.name == 'Bayern':
+        assert state.cases == 653797
+        assert state.weekIncidence == 14.4
     if state.name == 'Baden-Württemberg':
-        assert state.cases == 500702
+        assert state.cases == 505824
+        assert state.weekIncidence == 14.8
     if state.name == 'Niedersachsen':
-        assert state.cases == 261055
+        assert state.cases == 265191
+        assert state.weekIncidence == 16.8
     pass
 
