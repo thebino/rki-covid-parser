@@ -1,4 +1,4 @@
-name: Endpoint availibility check
+name: Endpoint availibility
 
 on:
   workflow_dispatch:
