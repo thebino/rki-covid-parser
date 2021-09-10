@@ -13,10 +13,6 @@ A clear and concise description of what the bug is.
 
 **💥 When did the bug occurred.***
 
-- [ ] First-run
-- [ ] Reccurring
-- [ ] Other
-
 
 **👣 To Reproduce**
 

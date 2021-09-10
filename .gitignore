@@ -25,5 +25,7 @@ wheels/
 .idea/modules.xml
 .idea/rki_covid.iml
 
+# testing
 .tox
 .coverage
+htmlcov
