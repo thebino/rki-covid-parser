@@ -27,8 +27,17 @@ jobs:
       - name: tox
         run: tox
 
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v2
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          path--to-lcov: coverage.xml
+          name: code-coverage-report
+          path: htmlcov
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+          verbose: true
