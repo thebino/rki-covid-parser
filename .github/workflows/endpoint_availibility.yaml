@@ -1,0 +1,17 @@
+name: Endpoint availibility check
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Download file
+       run: curl https://impfdashboard.de/static/data/germany_vaccinations_by_state.tsv > germany_vaccinations_by_state.tsv
+
+     - name: count lines
+       run: wc -l germany_vaccinations_by_state.tsv
+
+     - name: print content
+       run: cat germany_vaccinations_by_state.tsv

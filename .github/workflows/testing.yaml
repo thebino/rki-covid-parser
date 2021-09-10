@@ -1,4 +1,4 @@
-name: Check the ArcGis endpoint availibility
+name: Run automated tests
 
 on:
   push:
