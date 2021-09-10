@@ -37,14 +37,7 @@ class District(Area):
         self.deaths: int = data["deaths"]
         self.casesPerWeek: int = data["cases7_lk"]
         self.deathsPerWeek: int = data["death7_lk"]
-        # self.recovered
-        # self.newCases
-        # self.newDeaths
-        # self.newRecovered
-        self.lastUpdate: str = data["last_update"]  # "01.01.2020, 00:00 Uhr"
-
-    def add_properties(self, data: dict):
-        pass
+        self.lastUpdate: str = data["last_update"]
 
     def __repr__(self):
         return (

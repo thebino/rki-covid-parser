@@ -1,7 +1,8 @@
 # Robert-Koch Institut COVID numbers parser
 
 [![License](https://img.shields.io/github/license/thebino/rki-covid-parser)](./LICENSE.md)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/thebino/rki-covid-parser/Check%20the%20ArcGis%20endpoint%20availibility)
+[![Tests](https://github.com/thebino/rki-covid-parser/actions/workflows/testing.yaml/badge.svg)](https://github.com/thebino/rki-covid-parser/actions/workflows/testing.yaml)
+[![codecov](https://codecov.io/gh/thebino/rki-covid-parser/branch/development/graph/badge.svg?token=9NUUAMXVP4)](https://codecov.io/gh/thebino/rki-covid-parser)
 
 Python parser for the latest covid numbers from German RKI (Robert-Koch Institut).
 
