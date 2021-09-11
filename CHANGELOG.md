@@ -1,3 +1,11 @@
+## [1.2.3] - 2021-09-11
+### Changed
+- version bump
+
+## [1.2.2] - 2021-09-10
+### Fixed
+- Skip non mapped states for vaccination numbers
+
 ## [1.2.1] - 2021-07-01
 ### Fixed
 - Reset state values before merging
