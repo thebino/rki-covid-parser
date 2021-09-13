@@ -36,8 +36,6 @@ def generator_attributes_from_features(data):
     assert type(data) == dict
     _features = "features"
     _attributes = "attributes"
-    assert _features in data
-    assert len(data[_features]) > 0
 
     for feature in data[_features]:
         assert _attributes in feature
@@ -109,28 +107,32 @@ class RkiCovidParser:
         for attributes in generator_attributes_from_features(data):
             id = attributes["IdLandkreis"]
             recovered = attributes["recovered"]
-            self.districts[id].recovered = recovered
+            if id in self.districts:
+                self.districts[id].recovered = recovered
 
     async def _extract_districts_new_cases(self, data: dict) -> None:
         """iterate through 'attributes' to extract new cases for districts."""
         for attributes in generator_attributes_from_features(data):
             id = attributes["IdLandkreis"]
             newCases = attributes["newCases"]
-            self.districts[id].newCases = newCases
+            if id in self.districts:
+                self.districts[id].newCases = newCases
 
     async def _extract_districts_new_recovered(self, data: dict) -> None:
         """iterate through 'attributes' to extract new cases for districts."""
         for attributes in generator_attributes_from_features(data):
             id = attributes["IdLandkreis"]
             newRecovered = attributes["recovered"]
-            self.districts[id].newRecovered = newRecovered
+            if id in self.districts:
+                self.districts[id].newRecovered = newRecovered
 
     async def _extract_districts_new_deaths(self, data: dict) -> None:
         """iterate through 'attributes' to extract new deaths for districts."""
         for attributes in generator_attributes_from_features(data):
             id = attributes["IdLandkreis"]
             newDeaths = attributes["newDeaths"]
-            self.districts[id].newDeaths = newDeaths
+            if id in self.districts:
+                self.districts[id].newDeaths = newDeaths
 
     async def _extract_vaccinations(self, data: csv.DictReader) -> None:
         """iterate through rows to extract vaccinations."""
@@ -148,9 +150,10 @@ class RkiCovidParser:
 
             if row[_code] in VaccinationCode2StateMap:
                 state = VaccinationCode2StateMap[row[_code]]
-                self.states[state].vaccinationTotal = int(row[_vaccinations_total])
-                self.states[state].vaccinationFirst = int(row[_people_first_total])
-                self.states[state].vaccinationFull = int(row[_people_full_total])
+                if state in self.states:
+                    self.states[state].vaccinationTotal = int(row[_vaccinations_total])
+                    self.states[state].vaccinationFirst = int(row[_people_first_total])
+                    self.states[state].vaccinationFull = int(row[_people_full_total])
 
     async def _load_from_argcis(self, url: str) -> str:
         response = await self.session.get(url)
