@@ -12,6 +12,11 @@ def no_districts():
         return json.load(mock_response)
 
 @pytest.fixture()
+def no_features():
+    with open("tests/fixtures/no_features.json", "r") as mock_response:
+        return json.load(mock_response)
+
+@pytest.fixture()
 def response_recovered():
     with open("tests/fixtures/response_recovered.json", "r") as mock_response:
         return json.load(mock_response)

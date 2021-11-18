@@ -53,6 +53,23 @@ async def test_parsing_without_data(no_districts, response_recovered, response_n
             assert len(parser.districts) == 0
 
 
+async def test_parsing_without_features(no_features, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state):
+    """Test parsing with fake data loaded from fixture response files."""
+    async with aiohttp.ClientSession() as session:
+        with aioresponses() as mocked:
+            mocked.get(DISTRICTS_URL, status=200, payload=no_features)
+            mocked.get(DISTRICTS_URL_RECOVERED, status=200, payload=response_recovered)
+            mocked.get(DISTRICTS_URL_NEW_CASES, status=200, payload=response_new_cases)
+            mocked.get(DISTRICTS_URL_NEW_RECOVERED, status=200, payload=response_new_recovered)
+            mocked.get(DISTRICTS_URL_NEW_DEATHS, status=200, payload=response_new_death)
+            mocked.get(VACCINATIONS_URL, status=200, body=vaccinations_by_state)
+
+            parser = RkiCovidParser(session)
+            await parser.load_data()
+
+            assert len(parser.districts) == 0
+
+
 async def test_parsing_with_multiple_load_data_calls(response_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state):
     """Test if parsing returns valid numbers if called multiple times."""
     async with aiohttp.ClientSession() as session:
