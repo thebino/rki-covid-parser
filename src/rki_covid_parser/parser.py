@@ -38,9 +38,9 @@ def generator_attributes_from_features(data):
     _attributes = "attributes"
 
     if _features in data:
-      for feature in data[_features]:
-        assert _attributes in feature
-        yield feature[_attributes]
+        for feature in data[_features]:
+            assert _attributes in feature
+            yield feature[_attributes]
 
 
 class RkiCovidParser:
