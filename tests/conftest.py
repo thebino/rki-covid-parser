@@ -40,3 +40,8 @@ def response_new_death():
 def vaccinations_by_state():
     with open("tests/fixtures/germany_vaccinations_by_state.tsv", mode='r+b') as mock_response:
         return mock_response.read()
+
+@pytest.fixture()
+def hospitalization_numbers():
+    with open("tests/fixtures/hospitalization.csv", mode='r+b') as mock_response:
+        return mock_response.read()
