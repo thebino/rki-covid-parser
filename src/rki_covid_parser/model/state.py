@@ -7,23 +7,23 @@ from .area import Area
 class State(Area):
     id: str = None
     name: str = None
-    vaccinationTotal = None
-    vaccinationFirst = None
-    vaccinationFull = None
-    hospitalizationCasesMerged = None
-    hospitalizationIncidenceMerged = None
-    hospitalizationCasesBaby = None
-    hospitalizationIncidenceBaby = None
-    hospitalizationCasesChildren = None
-    hospitalizationIncidenceChildren = None
-    hospitalizationCasesTeen = None
-    hospitalizationIncidenceTeen = None
-    hospitalizationCasesGrown = None
-    hospitalizationIncidenceGrown = None
-    hospitalizationCasesSenior = None
-    hospitalizationIncidenceSenior = None
-    hospitalizationCasesOld = None
-    hospitalizationIncidenceOld = None
+    vaccinationTotal: int = 0
+    vaccinationFirst: int = 0
+    vaccinationFull: int = 0
+    hospitalizationCasesMerged: float = 0.0
+    hospitalizationIncidenceMerged: float = 0.0
+    hospitalizationCasesBaby: float = 0.0
+    hospitalizationIncidenceBaby: float = 0.123
+    hospitalizationCasesChildren: float = 0.0
+    hospitalizationIncidenceChildren: float = 0.0
+    hospitalizationCasesTeen: float = 0.0
+    hospitalizationIncidenceTeen: float = 0.0
+    hospitalizationCasesGrown: float = 0.0
+    hospitalizationIncidenceGrown: float = 0.0
+    hospitalizationCasesSenior: float = 0.0
+    hospitalizationIncidenceSenior: float = 0.0
+    hospitalizationCasesOld: float = 0.0
+    hospitalizationIncidenceOld: float = 0.0
     lastUpdate: str = None
 
     def __init__(self, name: str):

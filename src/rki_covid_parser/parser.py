@@ -206,31 +206,31 @@ class RkiCovidParser:
             if stateValue not in self.states:
                 continue
 
-            if ageGroupValue == "00+":
+            if ageGroupValue == '00+':
                 self.states[stateValue].hospitalizationCasesMerged = casesValue
                 self.states[stateValue].hospitalizationIncidenceMerged = incidenceValue
 
-            if ageGroupValue == "00-04":
+            if ageGroupValue == '00-04':
                 self.states[stateValue].hospitalizationCasesBaby = casesValue
                 self.states[stateValue].hospitalizationIncidenceBaby = incidenceValue
 
-            if ageGroupValue == "05-14":
+            if ageGroupValue == '05-14':
                 self.states[stateValue].hospitalizationCasesChildren = casesValue
                 self.states[stateValue].hospitalizationIncidenceChildren = incidenceValue
 
-            if ageGroupValue == "15-34":
+            if ageGroupValue == '15-34':
                 self.states[stateValue].hospitalizationCasesTeen = casesValue
                 self.states[stateValue].hospitalizationIncidenceTeen = incidenceValue
 
-            if ageGroupValue == "35-59":
+            if ageGroupValue == '35-59':
                 self.states[stateValue].hospitalizationCasesGrown = casesValue
                 self.states[stateValue].hospitalizationIncidenceGrown = incidenceValue
 
-            if ageGroupValue == "60-79":
+            if ageGroupValue == '60-79':
                 self.states[stateValue].hospitalizationCasesSenior = casesValue
                 self.states[stateValue].hospitalizationIncidenceSenior = incidenceValue
 
-            if ageGroupValue == "80+":
+            if ageGroupValue == '80+':
                 self.states[stateValue].hospitalizationCasesOld = casesValue
                 self.states[stateValue].hospitalizationIncidenceOld = incidenceValue
                     
