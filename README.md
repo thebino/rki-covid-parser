@@ -48,6 +48,20 @@ finished loading data, the parser contains a dictionary of districts, each with 
 |`newDeaths`| integer | New deaths since last day |
 |`newRecovered`| integer | New recovered since last day |
 |`last_update`| string | Timestamp of the last update |
+|`hospitalizationCasesMerged` | float | Hospitalization cases for people in germany summarized  |
+|`hospitalizationIncidenceMerged` | float | Hospitalization incidence for people in germany summarized |
+|`hospitalizationCasesBaby` | float | Hospitalization cases for people between 00-04 |
+|`hospitalizationIncidenceBaby` | float | Hospitalization incidence for people between 00-04 |
+|`hospitalizationCasesChildren` | float | Hospitalization cases for people between 05-14 |
+|`hospitalizationIncidenceChildren` | float | Hospitalization incidence for people between 05-14 |
+|`hospitalizationCasesTeen` | float | Hospitalization cases for people between 15-34 |
+|`hospitalizationIncidenceTeen` | float | Hospitalization incidence for people between 15-34 |
+|`hospitalizationCasesGrown` | float | Hospitalization cases for people between 35-59 |
+|`hospitalizationIncidenceGrown` | float | Hospitalization incidence for people between 35-59 |
+|`hospitalizationCasesSenior` | float | Hospitalization cases for people between 60-79 |
+|`hospitalizationIncidenceSenior` | float | Hospitalization incidence for people between 60-79 |
+|`hospitalizationCasesOld` | float | Hospitalization cases for people older than 80 |
+|`hospitalizationIncidenceOld` | float | Hospitalization incidence for people older than 80 |
 
 
 ## Contribution
