@@ -1,6 +1,13 @@
+## [1.3.0] - 2021-11-25
+### Added
+- Added hospitalization numbers
+
+### Fixed
+- Skip empty feature attributes
+
 ## [1.2.4] - 2021-09-13
 ### Fixed
-- stop parsing without exception, when data source is not available
+- Stop parsing without exception, when data source is not available
 
 ## [1.2.3] - 2021-09-11
 ### Changed

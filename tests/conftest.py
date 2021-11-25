@@ -1,5 +1,6 @@
 import pytest
 import json
+import datetime
 
 @pytest.fixture()
 def response_districts():
@@ -39,4 +40,16 @@ def response_new_death():
 @pytest.fixture()
 def vaccinations_by_state():
     with open("tests/fixtures/germany_vaccinations_by_state.tsv", mode='r+b') as mock_response:
+        return mock_response.read()
+
+@pytest.fixture()
+def hospitalization_numbers():
+    # replace latest test-date with today
+    text = open("tests/fixtures/hospitalization.csv", "r")
+    text = ''.join([i for i in text]).replace("2021-11-24", str(datetime.date.today()))
+    x = open("tests/fixtures/hospitalization.csv","w")
+    x.writelines(text)
+    x.close()
+
+    with open("tests/fixtures/hospitalization.csv", mode='r+b') as mock_response:
         return mock_response.read()

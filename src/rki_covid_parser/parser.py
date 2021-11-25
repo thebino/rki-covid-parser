@@ -3,10 +3,19 @@ import json
 
 import csv
 import io
-
+import datetime
 import aiohttp
+from typing import Dict
 
-from rki_covid_parser.const import DISTRICTS_URL, DISTRICTS_URL_RECOVERED, DISTRICTS_URL_NEW_CASES, DISTRICTS_URL_NEW_RECOVERED, DISTRICTS_URL_NEW_DEATHS, VACCINATIONS_URL
+from rki_covid_parser.const import (
+    DISTRICTS_URL, 
+    DISTRICTS_URL_RECOVERED, 
+    DISTRICTS_URL_NEW_CASES, 
+    DISTRICTS_URL_NEW_RECOVERED, 
+    DISTRICTS_URL_NEW_DEATHS, 
+    VACCINATIONS_URL, 
+    HOSPITALIZATION_URL
+)
 from rki_covid_parser.model.district import District
 from rki_covid_parser.model.state import State
 from rki_covid_parser.model.country import Country
@@ -50,6 +59,7 @@ class RkiCovidParser:
         self.states: Dict[str, State] = {}
         self.country = Country()
 
+
     async def load_data(self) -> None:
         """load all data and merge results."""
         await self._reset_states()
@@ -61,6 +71,7 @@ class RkiCovidParser:
         await self._merge_states()
         await self._merge_country()
 
+        await self._load_hospitalization()
         await self._load_vaccinations()
 
     async def _reset_states(self) -> None:
@@ -92,8 +103,13 @@ class RkiCovidParser:
         data = await self._load_from_argcis(DISTRICTS_URL_NEW_RECOVERED)
         await self._extract_districts_new_recovered(data)
 
+    async def _load_hospitalization(self) -> None:
+        """load hospitalization numbers."""
+        data = await self._load_csv_from_url(HOSPITALIZATION_URL)
+        await self._extract_hospitalization(data)
+
     async def _load_vaccinations(self) -> None:
-        """load vaccinations for districts."""
+        """load vaccinations."""
         data = await self._load_from_tsv(VACCINATIONS_URL)
         await self._extract_vaccinations(data)
 
@@ -156,6 +172,69 @@ class RkiCovidParser:
                     self.states[state].vaccinationFirst = int(row[_people_first_total])
                     self.states[state].vaccinationFull = int(row[_people_full_total])
 
+    async def _extract_hospitalization(self, data: csv.DictReader) -> None:
+        """iterate through rows to extract hospitalization."""
+        assert type(data) == csv.DictReader
+
+        _date = "Datum"
+        _state = "Bundesland"
+        _stateid = "Bundesland_Id"
+        _age_group = "Altersgruppe"
+        _cases_per_week = "7T_Hospitalisierung_Faelle"
+        _incidence_per_week = "7T_Hospitalisierung_Inzidenz"
+
+        for row in data:
+            assert _date in row
+            assert _state in row
+            assert _stateid in row
+            assert _age_group in row
+            assert _cases_per_week in row
+            assert _incidence_per_week in row
+
+            dateValue = str(row[_date])
+            stateValue = str(row[_state])
+            stateIdValue = int(row[_stateid])
+            ageGroupValue = str(row[_age_group])
+            casesValue = int(row[_cases_per_week])
+            incidenceValue = float(row[_incidence_per_week])
+
+            # skip older entries
+            if dateValue != str(datetime.date.today()):
+                continue
+
+            # skip unknown states
+            if stateValue not in self.states:
+                continue
+
+            if ageGroupValue == '00+':
+                self.states[stateValue].hospitalizationCasesMerged = casesValue
+                self.states[stateValue].hospitalizationIncidenceMerged = incidenceValue
+
+            if ageGroupValue == '00-04':
+                self.states[stateValue].hospitalizationCasesBaby = casesValue
+                self.states[stateValue].hospitalizationIncidenceBaby = incidenceValue
+
+            if ageGroupValue == '05-14':
+                self.states[stateValue].hospitalizationCasesChildren = casesValue
+                self.states[stateValue].hospitalizationIncidenceChildren = incidenceValue
+
+            if ageGroupValue == '15-34':
+                self.states[stateValue].hospitalizationCasesTeen = casesValue
+                self.states[stateValue].hospitalizationIncidenceTeen = incidenceValue
+
+            if ageGroupValue == '35-59':
+                self.states[stateValue].hospitalizationCasesGrown = casesValue
+                self.states[stateValue].hospitalizationIncidenceGrown = incidenceValue
+
+            if ageGroupValue == '60-79':
+                self.states[stateValue].hospitalizationCasesSenior = casesValue
+                self.states[stateValue].hospitalizationIncidenceSenior = incidenceValue
+
+            if ageGroupValue == '80+':
+                self.states[stateValue].hospitalizationCasesOld = casesValue
+                self.states[stateValue].hospitalizationIncidenceOld = incidenceValue
+                    
+
     async def _load_from_argcis(self, url: str) -> str:
         response = await self.session.get(url)
         # parse data manually, due to missing content-type 'application/json'
@@ -166,6 +245,11 @@ class RkiCovidParser:
         response = await self.session.get(url)
         body = await response.text()
         return csv.DictReader(io.StringIO(body), dialect=csv.excel_tab)
+
+    async def _load_csv_from_url(self, url: str) -> str:
+        response = await self.session.get(url)
+        body = await response.text()
+        return csv.DictReader(io.StringIO(body), dialect=csv.excel)
 
     async def _merge_states(self) -> None:
         """merge all districts grouped by state."""       

@@ -3,13 +3,13 @@ from aioresponses import aioresponses
 
 from typing import Dict
 
-from rki_covid_parser.const import DISTRICTS_URL, DISTRICTS_URL_RECOVERED, DISTRICTS_URL_NEW_CASES, DISTRICTS_URL_NEW_RECOVERED, DISTRICTS_URL_NEW_DEATHS, VACCINATIONS_URL
+from rki_covid_parser.const import DISTRICTS_URL, DISTRICTS_URL_RECOVERED, DISTRICTS_URL_NEW_CASES, DISTRICTS_URL_NEW_RECOVERED, DISTRICTS_URL_NEW_DEATHS, HOSPITALIZATION_URL, VACCINATIONS_URL
 from rki_covid_parser.parser import RkiCovidParser
 from rki_covid_parser.model.district import District
 from rki_covid_parser.model.state import State
 from rki_covid_parser.model.country import Country
 
-async def test_parsing_with_fake_data(response_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state):
+async def test_parsing_with_fake_data(response_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state, hospitalization_numbers):
     """Test parsing with fake data loaded from fixture response files."""
     async with aiohttp.ClientSession() as session:
         with aioresponses() as mocked:
@@ -19,6 +19,7 @@ async def test_parsing_with_fake_data(response_districts, response_recovered, re
             mocked.get(DISTRICTS_URL_NEW_RECOVERED, status=200, payload=response_new_recovered)
             mocked.get(DISTRICTS_URL_NEW_DEATHS, status=200, payload=response_new_death)
             mocked.get(VACCINATIONS_URL, status=200, body=vaccinations_by_state)
+            mocked.get(HOSPITALIZATION_URL, status=200, body=hospitalization_numbers)
 
             parser = RkiCovidParser(session)
             await parser.load_data()
@@ -34,9 +35,9 @@ async def test_parsing_with_fake_data(response_districts, response_recovered, re
             _validate_state_numbers(parser.states)
             _validate_country_numbers(parser.country)
             _validate_vaccination_numbers(parser.states)
+            _validate_hospitalization_numbers(parser.states)
 
-
-async def test_parsing_without_data(no_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state):
+async def test_parsing_without_data(no_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state, hospitalization_numbers):
     """Test parsing with fake data loaded from fixture response files."""
     async with aiohttp.ClientSession() as session:
         with aioresponses() as mocked:
@@ -46,6 +47,7 @@ async def test_parsing_without_data(no_districts, response_recovered, response_n
             mocked.get(DISTRICTS_URL_NEW_RECOVERED, status=200, payload=response_new_recovered)
             mocked.get(DISTRICTS_URL_NEW_DEATHS, status=200, payload=response_new_death)
             mocked.get(VACCINATIONS_URL, status=200, body=vaccinations_by_state)
+            mocked.get(HOSPITALIZATION_URL, status=200, body=hospitalization_numbers)
 
             parser = RkiCovidParser(session)
             await parser.load_data()
@@ -53,7 +55,7 @@ async def test_parsing_without_data(no_districts, response_recovered, response_n
             assert len(parser.districts) == 0
 
 
-async def test_parsing_without_features(no_features, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state):
+async def test_parsing_without_features(no_features, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state, hospitalization_numbers):
     """Test parsing with fake data loaded from fixture response files."""
     async with aiohttp.ClientSession() as session:
         with aioresponses() as mocked:
@@ -63,6 +65,7 @@ async def test_parsing_without_features(no_features, response_recovered, respons
             mocked.get(DISTRICTS_URL_NEW_RECOVERED, status=200, payload=response_new_recovered)
             mocked.get(DISTRICTS_URL_NEW_DEATHS, status=200, payload=response_new_death)
             mocked.get(VACCINATIONS_URL, status=200, body=vaccinations_by_state)
+            mocked.get(HOSPITALIZATION_URL, status=200, body=hospitalization_numbers)
 
             parser = RkiCovidParser(session)
             await parser.load_data()
@@ -70,7 +73,7 @@ async def test_parsing_without_features(no_features, response_recovered, respons
             assert len(parser.districts) == 0
 
 
-async def test_parsing_with_multiple_load_data_calls(response_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state):
+async def test_parsing_with_multiple_load_data_calls(response_districts, response_recovered, response_new_cases, response_new_recovered, response_new_death, vaccinations_by_state, hospitalization_numbers):
     """Test if parsing returns valid numbers if called multiple times."""
     async with aiohttp.ClientSession() as session:
         with aioresponses() as mocked:
@@ -80,6 +83,7 @@ async def test_parsing_with_multiple_load_data_calls(response_districts, respons
             mocked.get(DISTRICTS_URL_NEW_RECOVERED, status=200, payload=response_new_recovered, repeat=True)
             mocked.get(DISTRICTS_URL_NEW_DEATHS, status=200, payload=response_new_death, repeat=True)
             mocked.get(VACCINATIONS_URL, status=200, body=vaccinations_by_state, repeat=True)
+            mocked.get(HOSPITALIZATION_URL, status=200, body=hospitalization_numbers, repeat=True)
 
             parser = RkiCovidParser(session)
             await parser.load_data()
@@ -97,11 +101,29 @@ async def test_parsing_with_multiple_load_data_calls(response_districts, respons
             _validate_country_numbers(parser.country)
             _validate_vaccination_numbers(parser.states)
 
-def _validate_vaccination_numbers(state: Dict[int, State]) -> None:
+def _validate_vaccination_numbers(state: Dict[str, State]) -> None:
     """Validate vaccination numbers against fake fixtures."""
     assert state['Bayern'].vaccinationTotal == 15751380
     assert state['Bayern'].vaccinationFirst == 8277269
     assert state['Bayern'].vaccinationFull == 7868655
+
+def _validate_hospitalization_numbers(state: Dict[str, State]) -> None:
+    """Validate hospitalization numbers against fake fixtures."""
+    assert state['Bayern'].hospitalizationIncidenceBaby == 4.03
+    assert state['Bayern'].hospitalizationIncidenceMerged == 9.49
+    assert state['Bayern'].hospitalizationIncidenceChildren == 1.02
+    assert state['Bayern'].hospitalizationIncidenceTeen == 2.32
+    assert state['Bayern'].hospitalizationIncidenceGrown == 5.11
+    assert state['Bayern'].hospitalizationIncidenceSenior == 15.3
+    assert state['Bayern'].hospitalizationIncidenceOld == 55.3
+
+    assert state['Bayern'].hospitalizationCasesBaby == 26
+    assert state['Bayern'].hospitalizationCasesMerged == 1247
+    assert state['Bayern'].hospitalizationCasesChildren == 12
+    assert state['Bayern'].hospitalizationCasesTeen == 72
+    assert state['Bayern'].hospitalizationCasesGrown == 235
+    assert state['Bayern'].hospitalizationCasesSenior == 420
+    assert state['Bayern'].hospitalizationCasesOld == 482
 
 def _validate_district_numbers(districts: Dict[int, District]):
     """Validate district numbers against faked fixtures."""
