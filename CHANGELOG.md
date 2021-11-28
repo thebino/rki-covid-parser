@@ -1,3 +1,7 @@
+## [1.3.1] - 2021-11-28
+### Fixed
+- Skip unavailable values
+
 ## [1.3.0] - 2021-11-25
 ### Added
 - Added hospitalization numbers

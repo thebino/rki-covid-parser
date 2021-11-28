@@ -195,8 +195,15 @@ class RkiCovidParser:
             stateValue = str(row[_state])
             stateIdValue = int(row[_stateid])
             ageGroupValue = str(row[_age_group])
-            casesValue = int(row[_cases_per_week])
-            incidenceValue = float(row[_incidence_per_week])
+            try:
+                casesValue = int(row[_cases_per_week])
+            except ValueError:
+                casesValue = 0
+
+            try:
+                incidenceValue = float(row[_incidence_per_week])
+            except ValueError:
+                incidenceValue = 0.0
 
             # skip older entries
             if dateValue != str(datetime.date.today()):
