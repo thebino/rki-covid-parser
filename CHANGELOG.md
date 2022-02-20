@@ -1,3 +1,7 @@
+## [1.3.2] - 2022-02-22
+### Fixed
+- Change datasource for newCases, newDeaths
+
 ## [1.3.1] - 2021-11-28
 ### Fixed
 - Skip unavailable values
