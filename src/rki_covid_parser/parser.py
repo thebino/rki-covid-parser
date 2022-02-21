@@ -122,7 +122,7 @@ class RkiCovidParser:
     async def _extract_districts_recovered(self, data: dict) -> None:
         """iterate through 'attributes' to extract recovered for districts."""
         for attributes in generator_attributes_from_features(data):
-            id = attributes["IdLandkreis"]
+            id = str(attributes["IdLandkreis"]).rjust(5, '0')
             recovered = attributes["recovered"]
             if id in self.districts:
                 self.districts[id].recovered = recovered
@@ -130,7 +130,7 @@ class RkiCovidParser:
     async def _extract_districts_new_cases(self, data: dict) -> None:
         """iterate through 'attributes' to extract new cases for districts."""
         for attributes in generator_attributes_from_features(data):
-            id = attributes["IdLandkreis"]
+            id = str(attributes["IdLandkreis"]).rjust(5, '0')
             newCases = attributes["newCases"]
             if id in self.districts:
                 self.districts[id].newCases = newCases
@@ -138,7 +138,7 @@ class RkiCovidParser:
     async def _extract_districts_new_recovered(self, data: dict) -> None:
         """iterate through 'attributes' to extract new cases for districts."""
         for attributes in generator_attributes_from_features(data):
-            id = attributes["IdLandkreis"]
+            id = str(attributes["IdLandkreis"]).rjust(5, '0')
             newRecovered = attributes["recovered"]
             if id in self.districts:
                 self.districts[id].newRecovered = newRecovered
@@ -146,7 +146,7 @@ class RkiCovidParser:
     async def _extract_districts_new_deaths(self, data: dict) -> None:
         """iterate through 'attributes' to extract new deaths for districts."""
         for attributes in generator_attributes_from_features(data):
-            id = attributes["IdLandkreis"]
+            id = str(attributes["IdLandkreis"]).rjust(5, '0')
             newDeaths = attributes["newDeaths"]
             if id in self.districts:
                 self.districts[id].newDeaths = newDeaths
