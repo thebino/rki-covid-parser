@@ -1,4 +1,8 @@
-## [1.3.2] - 2022-02-22
+## [1.3.3] - 2022-02-21
+### Fixed
+- Parsing of `IdLandkreis` from changed datasource
+
+## [1.3.2] - 2022-02-20
 ### Fixed
 - Change datasource for newCases, newDeaths
 

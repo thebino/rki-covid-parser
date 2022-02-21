@@ -136,12 +136,12 @@ def _validate_district_numbers(districts: Dict[int, District]):
     assert districts['09162'].deaths == 1283
     assert districts['09162'].casesPerWeek == 863
     assert districts['09162'].deathsPerWeek == 2
-    assert districts['09162'].recovered == 76199
+    assert districts['09162'].recovered == 210891
     assert districts['09162'].weekIncidence == 58.0
     assert districts['09162'].casesPer100k == 5371.92
-    assert districts['09162'].newCases == 391
+    assert districts['09162'].newCases == 1632
     assert districts['09162'].newDeaths == 1             #
-    assert districts['09162'].newRecovered == 214
+    assert districts['09162'].newRecovered == 210891
     assert districts['09162'].lastUpdate == '09.09.2021, 00:00 Uhr'
 
 def _validate_state_numbers(state: Dict[int, State]) -> None:
@@ -152,12 +152,12 @@ def _validate_state_numbers(state: Dict[int, State]) -> None:
     assert state['Bayern'].deaths == 15449
     assert state['Bayern'].casesPerWeek == 10514
     assert state['Bayern'].deathsPerWeek == 8
-    assert state['Bayern'].recovered == 654774
+    assert state['Bayern'].recovered == 1819168
     assert state['Bayern'].weekIncidence == 80.0
     assert state['Bayern'].casesPer100k == 5262.29
-    assert state['Bayern'].newCases == 2510
-    assert state['Bayern'].newDeaths == 9
-    assert state['Bayern'].newRecovered == 1344
+    assert state['Bayern'].newCases == 20958
+    assert state['Bayern'].newDeaths == 7
+    assert state['Bayern'].newRecovered == 1819168
     assert state['Bayern'].lastUpdate == '09.09.2021, 00:00 Uhr'
 
 def _validate_country_numbers(country: Country) -> None:
@@ -168,12 +168,12 @@ def _validate_country_numbers(country: Country) -> None:
     assert country.deaths == 92498
     assert country.casesPerWeek == 69457
     assert country.deathsPerWeek == 39
-    assert country.recovered == 3801460
+    assert country.recovered == 9829251
     assert country.weekIncidence == 83.5
     assert country.casesPer100k == 4866.13
-    assert country.newCases == 15431
-    assert country.newDeaths == 50
-    assert country.newRecovered == 8489
+    assert country.newCases == 73867
+    assert country.newDeaths == 22
+    assert country.newRecovered == 9829251
     assert country.lastUpdate == '09.09.2021, 00:00 Uhr'
 
 def _validate_district(district: District):
