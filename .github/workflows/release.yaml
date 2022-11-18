@@ -39,7 +39,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Publish binary wheel to releases
-        uses: svenstaro/upload-release-action@v1-release
+        uses: svenstaro/upload-release-action@2.3.0
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/*
